@@ -1,0 +1,5 @@
+$
+$HAMB
+$BREM
+$SPAI
+$TOUL
