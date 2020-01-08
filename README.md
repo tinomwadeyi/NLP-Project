@@ -1,3 +1,3 @@
-# NLP-Project
+# Topic Modelling
 
 FYP practice of NLP functionality
