@@ -9,9 +9,9 @@ import itertools
 import csv
 import pprint
 
-incident_keywords = []
+topics = []
 
-original_pairs = []
+pairs = []
 
 keywords = []
 
@@ -24,10 +24,10 @@ def keyword_search():
 
         for row in reader:
 
-            # Clean the text recognising airbus terms
+            # Clean the text recognising terms
             c = Cleaner()
 
-            # Cleans the summary column
+            # Cleans summary
             cleaned = c.clean(row["..."])
 
             # Removes punctuation
@@ -53,21 +53,21 @@ def keyword_search():
                 if word not in stop_words:
                     filtered_sentence.append(word)
 
-            incidents = row["..."]
+            topics = row["..."]
 
             result = ' '.join(filtered_sentence).replace(' , ', ',').replace(' .', '.').replace(' !', '!')
             result = result.replace(' ?', '?').replace(' : ', ': ').replace(' \'', '\'')
 
-            data = {incidents : result}
+            data = {topics : result}
 
-            pairs = {incidents : cleaned}
-            original_pairs.append(pairs)
+            pairs = {topics : cleaned}
+            pairs.append(pairs)
 
-            incident_keywords.append(data)
+            topics.append(data)
 
             output = {}
 
-            for d in incident_keywords:
+            for d in topics:
                 output.update(d)
 
         keywords.append(list(output.values()))
@@ -77,7 +77,7 @@ def look_up(id,keywords):
     # Ignores case
     keywords = keywords.lower()
 
-    for item in incident_keywords:
+    for item in topics:
 
         # if any value contains s
         if any([keywords in v.lower() for v in item.values()]):
