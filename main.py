@@ -5,8 +5,6 @@ from nltk.tokenize import RegexpTokenizer
 from fuzzywuzzy import process
 from fuzzywuzzy import fuzz
 
-from nlp4airbus.re.clean import Cleaner
-
 import itertools
 import csv
 import pprint
@@ -20,10 +18,8 @@ keywords = []
 def keyword_search():
 
     # Various files used for proof concept
-    with open('incidents_cleaned_50.csv', 'rt', encoding='ISO-8859-1') as file_data:
-    #with open('original_incidents_list_50.csv', 'rt', encoding='ISO-8859-1') as file_data:
-    #with open('original_incidents_list.csv', 'rt', encoding='ISO-8859-1') as file_data:
-
+    with open('...', 'rt', encoding='ISO-8859-1') as file_data:
+   
         reader = csv.DictReader(file_data, delimiter=",")
 
         for row in reader:
@@ -32,14 +28,14 @@ def keyword_search():
             c = Cleaner()
 
             # Cleans the summary column
-            cleaned = c.clean(row["Summary"])
+            cleaned = c.clean(row["..."])
 
             # Removes punctuation
             remove_punctuation = RegexpTokenizer(r'\w+')
             removed = remove_punctuation.tokenize(cleaned)
 
             # Can be changed to remove specific items from the text
-            removal_list = ['HAMB', 'SPAI', 'TOUL', 'BREM', '_']
+            removal_list = ['_']
 
             # Removes all occurences from the removal_list
             final_list = [word for word in removed if word not in removal_list]
@@ -57,7 +53,7 @@ def keyword_search():
                 if word not in stop_words:
                     filtered_sentence.append(word)
 
-            incidents = row["Incident ID - Hyperlink to AR"]
+            incidents = row["..."]
 
             result = ' '.join(filtered_sentence).replace(' , ', ',').replace(' .', '.').replace(' !', '!')
             result = result.replace(' ?', '?').replace(' : ', ': ').replace(' \'', '\'')
@@ -96,16 +92,16 @@ def search():
 
         query = word
 
-        pbi = []
+        abc = []
         original = []
         choices = []
 
         # iterate over at most 500 first results (can be changed)
-        for result in itertools.islice(look_up(pbi,query),500):
+        for result in itertools.islice(look_up(abc,query),500):
 
             original.append(list(result.keys()))
 
-            pbi.append(list(result.items()))
+            abc.append(list(result.items()))
 
             choices.append(list(result.values()))
 
@@ -119,7 +115,7 @@ def search():
 
         final = [tuple(j for j in i if not isinstance(j, str)) for i in output]
 
-        zipped = [{"Links:": list(zip(flat_list_2, final))}]
+        zipped = [{"...:": list(zip(flat_list_2, final))}]
 
         print('')
         print('-' * 80)
@@ -127,7 +123,7 @@ def search():
 
         flat_list_3 = [item for sublist in pbi for item in sublist]
 
-        print('Query: ' + query)
+        print('...: ' + query)
 
         print('')
 
@@ -135,7 +131,3 @@ def search():
 
 keyword_search()
 search()
-
-
-
-
